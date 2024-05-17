@@ -3,9 +3,16 @@
 import { Button } from "@/app/_components/ui/button";
 import { Calendar } from "@/app/_components/ui/calendar";
 import { Card, CardContent } from "@/app/_components/ui/card";
-import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/app/_components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/app/_components/ui/sheet";
 import { Barbershop, Booking, Service } from "@prisma/client";
-import { ptBR } from "date-fns/locale";
+import { enCA, ptBR } from "date-fns/locale";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
@@ -24,7 +31,11 @@ interface ServiceItemProps {
   isAuthenticated: boolean;
 }
 
-const ServiceItem = ({ service, barbershop, isAuthenticated }: ServiceItemProps) => {
+const ServiceItem = ({
+  service,
+  barbershop,
+  isAuthenticated,
+}: ServiceItemProps) => {
   const router = useRouter();
 
   const { data } = useSession();
@@ -86,12 +97,12 @@ const ServiceItem = ({ service, barbershop, isAuthenticated }: ServiceItemProps)
       setSheetIsOpen(false);
       setHour(undefined);
       setDate(undefined);
-      toast("Reserva realizada com sucesso!", {
-        description: format(newDate, "'Para' dd 'de' MMMM 'às' HH':'mm'.'", {
-          locale: ptBR,
+      toast("Reservation successfully made!", {
+        description: format(newDate, "'For' dd 'of' MMMM 'at' HH':'mm'.'", {
+          locale: enCA,
         }),
         action: {
-          label: "Visualizar",
+          label: "View",
           onClick: () => router.push("/bookings"),
         },
       });
@@ -146,21 +157,21 @@ const ServiceItem = ({ service, barbershop, isAuthenticated }: ServiceItemProps)
 
             <div className="flex items-center justify-between mt-3">
               <p className="text-primary text-sm font-bold">
-                {Intl.NumberFormat("pt-BR", {
+                {Intl.NumberFormat("en-CA", {
                   style: "currency",
-                  currency: "BRL",
+                  currency: "CAD",
                 }).format(Number(service.price))}
               </p>
               <Sheet open={sheetIsOpen} onOpenChange={setSheetIsOpen}>
                 <SheetTrigger asChild>
                   <Button variant="secondary" onClick={handleBookingClick}>
-                    Reservar
+                    Book
                   </Button>
                 </SheetTrigger>
 
                 <SheetContent className="p-0">
                   <SheetHeader className="text-left px-5 py-6 border-b border-solid border-secondary">
-                    <SheetTitle>Fazer Reserva</SheetTitle>
+                    <SheetTitle>Make Reservation</SheetTitle>
                   </SheetHeader>
 
                   <div className="py-6">
@@ -196,7 +207,6 @@ const ServiceItem = ({ service, barbershop, isAuthenticated }: ServiceItemProps)
                     />
                   </div>
 
-                  {/* Mostrar lista de horários apenas se alguma data estiver selecionada */}
                   {date && (
                     <div className="flex gap-3 overflow-x-auto py-6 px-5 border-t border-solid border-secondary [&::-webkit-scrollbar]:hidden">
                       {timeList.map((time) => (
@@ -218,7 +228,10 @@ const ServiceItem = ({ service, barbershop, isAuthenticated }: ServiceItemProps)
                         barbershop: barbershop,
                         date:
                           date && hour
-                            ? setMinutes(setHours(date, Number(hour.split(":")[0])), Number(hour.split(":")[1]))
+                            ? setMinutes(
+                                setHours(date, Number(hour.split(":")[0])),
+                                Number(hour.split(":")[1])
+                              )
                             : undefined,
                         service: service,
                       }}
@@ -226,9 +239,14 @@ const ServiceItem = ({ service, barbershop, isAuthenticated }: ServiceItemProps)
                   </div>
 
                   <SheetFooter className="px-5">
-                    <Button onClick={handleBookingSubmit} disabled={!hour || !date || submitIsLoading}>
-                      {submitIsLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                      Confirmar reserva
+                    <Button
+                      onClick={handleBookingSubmit}
+                      disabled={!hour || !date || submitIsLoading}
+                    >
+                      {submitIsLoading && (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      )}
+                      Confirm Reservation
                     </Button>
                   </SheetFooter>
                 </SheetContent>
