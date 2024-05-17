@@ -42,7 +42,7 @@ export default async function Home() {
       <div className="px-5 pt-5">
         <h2 className="text-xl font-bold">
           {session?.user
-            ? `Olá, ${session.user.name?.split(" ")[0]}!`
+            ? `Hello, ${session.user.name?.split(" ")[0]}!`
             : "Hello! Let's schedule a haircut today?"}
         </h2>
         <p className="capitalize text-sm">
