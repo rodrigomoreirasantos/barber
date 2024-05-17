@@ -28,7 +28,7 @@ const BookingInfo = ({ booking }: BookingInfoProps) => {
         {booking.date && (
           <>
             <div className="flex justify-between">
-              <h3 className="text-gray-400 text-sm">Data</h3>
+              <h3 className="text-gray-400 text-sm">Date</h3>
               <h4 className="text-sm">
                 {format(booking.date, "dd 'of' MMMM", {
                   locale: enCA,
