@@ -5,8 +5,16 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
 import { Card, CardContent } from "./ui/card";
 import { format, isFuture } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
+import { enCA } from "date-fns/locale";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "./ui/sheet";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { cancelBooking } from "../_actions/cancel-booking";
@@ -46,7 +54,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
     try {
       await cancelBooking(booking.id);
 
-      toast.success("Reserva cancelada com sucesso!");
+      toast.success("Reservation successfully canceled!");
     } catch (error) {
       console.error(error);
     } finally {
@@ -60,8 +68,11 @@ const BookingItem = ({ booking }: BookingItemProps) => {
         <Card className="min-w-full">
           <CardContent className="py-0 flex px-0">
             <div className="flex flex-col gap-2 py-5 flex-[3] pl-5">
-              <Badge variant={isBookingConfirmed ? "default" : "secondary"} className="w-fit">
-                {isBookingConfirmed ? "Confirmado" : "Finalizado"}
+              <Badge
+                variant={isBookingConfirmed ? "default" : "secondary"}
+                className="w-fit"
+              >
+                {isBookingConfirmed ? "Confirmed" : "Completed"}
               </Badge>
               <h2 className="font-bold">{booking.service.name}</h2>
 
@@ -79,7 +90,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
             <div className="flex flex-col items-center justify-center flex-1 border-l border-solid border-secondary">
               <p className="text-sm capitalize">
                 {format(booking.date, "MMMM", {
-                  locale: ptBR,
+                  locale: enCA,
                 })}
               </p>
               <p className="text-2xl">{format(booking.date, "dd")}</p>
@@ -91,12 +102,16 @@ const BookingItem = ({ booking }: BookingItemProps) => {
 
       <SheetContent className="px-0">
         <SheetHeader className="px-5 text-left pb-6 border-b border-solid border-secondary">
-          <SheetTitle>Informações da Reserva</SheetTitle>
+          <SheetTitle>Reservation Details</SheetTitle>
         </SheetHeader>
 
         <div className="px-5">
           <div className="relative h-[180px] w-full mt-6">
-            <Image src="/barbershop-map.png" fill alt={booking.barbershop.name} />
+            <Image
+              src="/barbershop-map.png"
+              fill
+              alt={booking.barbershop.name}
+            />
 
             <div className="w-full absolute bottom-4 left-0 px-5">
               <Card>
@@ -107,15 +122,20 @@ const BookingItem = ({ booking }: BookingItemProps) => {
 
                   <div>
                     <h2 className="font-bold">{booking.barbershop.name}</h2>
-                    <h3 className="text-xs overflow-hidden text-nowrap text-ellipsis">{booking.barbershop.address}</h3>
+                    <h3 className="text-xs overflow-hidden text-nowrap text-ellipsis">
+                      {booking.barbershop.address}
+                    </h3>
                   </div>
                 </CardContent>
               </Card>
             </div>
           </div>
 
-          <Badge variant={isBookingConfirmed ? "default" : "secondary"} className="w-fit my-3">
-            {isBookingConfirmed ? "Confirmado" : "Finalizado"}
+          <Badge
+            variant={isBookingConfirmed ? "default" : "secondary"}
+            className="w-fit my-3"
+          >
+            {isBookingConfirmed ? "Confirmed" : "Completed"}
           </Badge>
 
           <BookingInfo booking={booking} />
@@ -123,28 +143,42 @@ const BookingItem = ({ booking }: BookingItemProps) => {
           <SheetFooter className="flex-row gap-3 mt-6">
             <SheetClose asChild>
               <Button className="w-full" variant="secondary">
-                Voltar
+                Back
               </Button>
             </SheetClose>
 
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button disabled={!isBookingConfirmed || isDeleteLoading} className="w-full" variant="destructive">
-                  Cancelar Reserva
+                <Button
+                  disabled={!isBookingConfirmed || isDeleteLoading}
+                  className="w-full"
+                  variant="destructive"
+                >
+                  Cancel Reservation
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent className="w-[90%]">
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Deseja mesmo cancelar essa reserva?</AlertDialogTitle>
+                  <AlertDialogTitle>
+                    Are you sure you want to cancel this reservation?
+                  </AlertDialogTitle>
                   <AlertDialogDescription>
-                    Uma vez cancelada, não será possível reverter essa ação.
+                    Once canceled, this action cannot be reversed.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter className="flex-row gap-3">
-                  <AlertDialogCancel className="w-full mt-0">Voltar</AlertDialogCancel>
-                  <AlertDialogAction disabled={isDeleteLoading} className="w-full" onClick={handleCancelClick}>
-                    {isDeleteLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Confirmar
+                  <AlertDialogCancel className="w-full mt-0">
+                    Back
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                    disabled={isDeleteLoading}
+                    className="w-full"
+                    onClick={handleCancelClick}
+                  >
+                    {isDeleteLoading && (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    )}
+                    Confirm
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
