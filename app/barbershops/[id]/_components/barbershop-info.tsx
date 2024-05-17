@@ -22,13 +22,22 @@ const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
   return (
     <div>
       <div className="h-[250px] w-full relative">
-        <Button onClick={handleBackClick} size="icon" variant="outline" className="z-50 absolute top-4 left-4">
+        <Button
+          onClick={handleBackClick}
+          size="icon"
+          variant="outline"
+          className="z-50 absolute top-4 left-4"
+        >
           <ChevronLeftIcon />
         </Button>
 
         <Sheet>
           <SheetTrigger asChild>
-            <Button size="icon" variant="outline" className="z-50 absolute top-4 right-4">
+            <Button
+              size="icon"
+              variant="outline"
+              className="z-50 absolute top-4 right-4"
+            >
               <MenuIcon />
             </Button>
           </SheetTrigger>
@@ -57,7 +66,7 @@ const BarbershopInfo = ({ barbershop }: BarbershopInfoProps) => {
         </div>
         <div className="flex items-center gap-1 mt-2">
           <StarIcon className="text-primary" size={18} />
-          <p className="text-sm">5,0 (899 avaliações)</p>
+          <p className="text-sm">5,0 (899 reviews)</p>
         </div>
       </div>
     </div>

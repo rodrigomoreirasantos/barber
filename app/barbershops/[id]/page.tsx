@@ -10,11 +10,12 @@ interface BarbershopDetailsPageProps {
   };
 }
 
-const BarbershopDetailsPage = async ({ params }: BarbershopDetailsPageProps) => {
+const BarbershopDetailsPage = async ({
+  params,
+}: BarbershopDetailsPageProps) => {
   const session = await getServerSession(authOptions);
 
   if (!params.id) {
-    // TODO: redirecionar para home page
     return null;
   }
 
@@ -28,7 +29,6 @@ const BarbershopDetailsPage = async ({ params }: BarbershopDetailsPageProps) => 
   });
 
   if (!barbershop) {
-    // TODO: redirecionar para home page
     return null;
   }
 
@@ -38,7 +38,12 @@ const BarbershopDetailsPage = async ({ params }: BarbershopDetailsPageProps) => 
 
       <div className="px-5 flex flex-col gap-4 py-6">
         {barbershop.services.map((service) => (
-          <ServiceItem key={service.id} barbershop={barbershop} service={service} isAuthenticated={!!session?.user} />
+          <ServiceItem
+            key={service.id}
+            barbershop={barbershop}
+            service={service}
+            isAuthenticated={!!session?.user}
+          />
         ))}
       </div>
     </div>
